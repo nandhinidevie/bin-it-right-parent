@@ -5,7 +5,7 @@
       "has": [
         {
           "type": "host",
-          "value": "hdi.domain.com"
+          "value": "hdi.binitright.com"
         }
       ],
       "destination": "/hdi/:path*"
