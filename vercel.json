@@ -6,19 +6,18 @@
   "redirects": [
     {
       "source": "/-/bin-it-right.fifthtry.site/hdi/:path*",
-      "has": [
-        { "type": "host", "value": "hdi.binitright.com" }
-      ],
       "destination": "/hdi/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/-/bin-it-right.fifthtry.site/:path*",
+      "destination": "/:path*",
       "permanent": false
     }
   ],
   "rewrites": [
     {
       "source": "/:path*",
-      "has": [
-        { "type": "host", "value": "hdi.binitright.com" }
-      ],
       "destination": "/:path*"
     }
   ]
