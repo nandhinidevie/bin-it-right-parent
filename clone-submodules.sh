@@ -1,9 +1,14 @@
 #!/bin/bash
 set -e
 
-# Initialize and pull the core submodule only
-git submodule update --init --recursive --depth 1 core || true
+# Initialize submodule if needed
+git submodule update --init core
 
-echo "Submodule contents (core):"
-ls -la core || true
-ls -la core/hdi || true
+# Move submodule to the latest commit on main
+cd core
+git fetch --depth=1 origin main
+git checkout -B main origin/main
+cd ..
+
+# (Optional) Show the commit used for the build
+echo "core/main @ $(cd core && git rev-parse --short HEAD)"
