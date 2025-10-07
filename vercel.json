@@ -1,27 +1,27 @@
 {
-  "rewrites": [
-    {
-      "source": "/:path*",
-      "has": [
+    "rewrites": [
         {
-          "type": "header",
-          "key": "x-forwarded-host",
-          "value": "hdi.binitright.com"
+            "source": "/:path*",
+            "has": [
+                {
+                    "type": "header",
+                    "key": "x-forwarded-host",
+                    "value": "hdi.binitright.com"
+                }
+            ],
+            "destination": "/core/hdi/:path*"
+        },
+        {
+            "source": "/admin/:path*",
+            "destination": "/admin/app/:path*"
+        },
+        {
+            "source": "/:client/:project/game",
+            "destination": "/admin/game/:client/index.html"
+        },
+        {
+            "source": "/:client/:project",
+            "destination": "/core/:project/index.html"
         }
-      ],
-      "destination": "/core/hdi/:path*"
-    },
-    {
-      "source": "/admin/:path*",
-      "destination": "/admin/app/:path*"
-    },
-    {
-      "source": "/:client/:project/game",
-      "destination": "/admin/game/:client/index.html"
-    },
-    {
-      "source": "/:client/:project",
-      "destination": "/core/:project/index.html"
-    }
-  ]
+    ]
 }
