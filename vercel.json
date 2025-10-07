@@ -1,23 +1,12 @@
 {
   "framework": null,
   "installCommand": "chmod +x clone-submodules.sh && ./clone-submodules.sh && curl -fsSL -k https://fastn.com/install.sh | sh",
-  "buildCommand": "bash -lc 'cd core && fastn build --base=/ && mkdir -p ../public && cp -R .build/* ../public/ && if [ -f .build/hdi/index.html ]; then cp .build/hdi/index.html ../public/index.html; fi'",
+  "buildCommand": "bash -lc 'cd core && fastn build --base=/ && cd .. && mkdir -p public && cp -R core/.build/* public/ && if [ -f core/.build/hdi/index.html ]; then cp -f core/.build/hdi/index.html public/index.html; fi && echo \"Public directory contents:\" && ls -la public/'",
   "outputDirectory": "public",
-  "redirects": [
-    {
-      "source": "/-/bin-it-right.fifthtry.site/hdi/:path*",
-      "destination": "/hdi/:path*",
-      "permanent": false
-    },
-    {
-      "source": "/-/bin-it-right.fifthtry.site/:path*",
-      "destination": "/:path*",
-      "permanent": false
-    }
-  ],
   "rewrites": [
     {
       "source": "/:path*",
+      "has": [{ "type": "host", "value": "hdi.binitright.com" }],
       "destination": "/:path*"
     }
   ]
