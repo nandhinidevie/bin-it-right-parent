@@ -1,10 +1,9 @@
 #!/bin/bash
 set -e
 
-# Initialize and pull only the core submodule
+# Initialize and pull the core submodule
 git submodule update --init --recursive --depth 1 core || true
 
-# Print tree for verification
-echo "Submodule contents:"
-ls -la core || true
+echo "Submodule contents (core):"
+ls -la core
 ls -la core/hdi || true
