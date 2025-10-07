@@ -15,6 +15,10 @@ cp -R core/.build/* public/
 if [ -f core/.build/hdi/index.html ]; then
   cp -f core/.build/hdi/index.html public/index.html
 fi
+if [ -f core/.build/hdi/bin-finder/index.html ]; then
+  mkdir -p public/bin-finder
+  cp -f core/.build/hdi/bin-finder/index.html public/bin-finder/index.html
+fi
 
 # Optional: list what will be served for verification
 echo "Public dir (top-level):"
