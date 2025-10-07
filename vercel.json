@@ -12,14 +12,6 @@
                 }
             ],
             "destination": "/:path*"
-        },
-        {
-            "source": "/:client/:project/game",
-            "destination": "/admin/game/:client/index.html"
-        },
-        {
-            "source": "/:client/:project",
-            "destination": "/core/:project/index.html"
         }
     ]
 }
