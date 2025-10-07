@@ -7,10 +7,7 @@
     {
       "source": "/:path*",
       "has": [
-        {
-          "type": "host",
-          "value": "hdi.binitright.com"
-        }
+        { "type": "host", "value": "hdi.binitright.com" }
       ],
       "destination": "/hdi/:path*"
     }
