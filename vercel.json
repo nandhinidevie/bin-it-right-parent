@@ -1,4 +1,5 @@
 {
+    "buildCommand": "git submodule update --init --recursive --depth 1 || true",
     "rewrites": [
         {
             "source": "/:path*",
