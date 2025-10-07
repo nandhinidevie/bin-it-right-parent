@@ -3,6 +3,16 @@
   "installCommand": "chmod +x clone-submodules.sh && ./clone-submodules.sh && curl -fsSL -k https://fastn.com/install.sh | sh",
   "buildCommand": "cd core && fastn build --base=/",
   "outputDirectory": "core/.build",
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        { "type": "host", "value": "hdi.binitright.com" }
+      ],
+      "destination": "/hdi",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/:path*",
