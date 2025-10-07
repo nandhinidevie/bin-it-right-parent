@@ -14,10 +14,6 @@
             "destination": "/core/hdi/:path*"
         },
         {
-            "source": "/admin/:path*",
-            "destination": "/admin/app/:path*"
-        },
-        {
             "source": "/:client/:project/game",
             "destination": "/admin/game/:client/index.html"
         },
