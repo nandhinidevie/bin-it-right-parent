@@ -1,8 +1,8 @@
 {
   "framework": null,
-  "installCommand": "chmod +x clone-submodules.sh && ./clone-submodules.sh && curl -fsSL -k https://fastn.com/install.sh | sh",
-  "buildCommand": "cd core/hdi && fastn build --base=/",
-  "outputDirectory": "core/hdi/.build",
+  "installCommand": "curl -fsSL -k https://fastn.com/install.sh | sh",
+  "buildCommand": "cd core && fastn build --base=/",
+  "outputDirectory": "core/.build",
   "rewrites": [
     {
       "source": "/:path*",
