@@ -1,6 +1,6 @@
 {
-    "buildCommand": "git submodule update --init --recursive --depth 1",
-    "outputDirectory": ".",
+    "buildCommand": "chmod +x clone-submodules.sh && ./clone-submodules.sh",
+    "outputDirectory": "public",
     "rewrites": [
         {
             "source": "/:path*",
@@ -11,7 +11,7 @@
                     "value": "hdi.binitright.com"
                 }
             ],
-            "destination": "/core/hdi/:path*"
+            "destination": "/:path*"
         },
         {
             "source": "/:client/:project/game",
