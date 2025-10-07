@@ -1,14 +1,13 @@
 {
+  "framework": null,
   "installCommand": "chmod +x clone-submodules.sh && ./clone-submodules.sh && curl -fsSL -k https://fastn.com/install.sh | sh",
   "buildCommand": "chmod +x build.sh && ./build.sh",
   "outputDirectory": "public",
   "rewrites": [
     {
-      "source": "/",
-      "has": [
-        { "type": "host", "value": "hdi.binitright.com" }
-      ],
-      "destination": "/hdi"
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "hdi.binitright.com" }],
+      "destination": "/:path*"
     }
   ]
 }
