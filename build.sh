@@ -1,22 +1,16 @@
 #!/bin/bash
 set -e
 
-# Build the fastn site from core, promote HDI to root
+# Build fastn with base=/hdi so all runtime and asset URLs resolve under /hdi
 cd core
-fastn build --base=/
+fastn build --base=/hdi
 cd ..
 
-# Ensure output directory
+# Publish the entire compiled site as-is
 mkdir -p public
-
-# Copy entire compiled site (hashed CSS/JS at root)
 cp -R core/.build/* public/
 
-# Replace root index with HDI homepage if it exists
-if [ -f core/.build/hdi/index.html ]; then
-  cp -f core/.build/hdi/index.html public/index.html
-fi
-
-# Optional: list what we publish for debugging
-echo "Public dir:"
-ls -la public
+# Log what will be served for quick verification
+echo "Public at deploy time:"
+find public -maxdepth 2 -type d -print | sort
+ls -la public | sed -n '1,200p'
