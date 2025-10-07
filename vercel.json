@@ -1,7 +1,7 @@
 {
   "framework": null,
   "installCommand": "chmod +x clone-submodules.sh && ./clone-submodules.sh && curl -fsSL -k https://fastn.com/install.sh | sh",
-  "buildCommand": "bash -lc 'cd core && fastn build --base=/ && mkdir -p ../public && rsync -a .build/ ../public/ && if [ -d .build/hdi ]; then rsync -a .build/hdi/ ../public/; fi && rm -rf ../public/hdi'",
+  "buildCommand": "bash -lc 'cd core && fastn build --base=/ && mkdir -p ../public && cp -R .build/* ../public/ && if [ -d .build/hdi ]; then cp -R .build/hdi/* ../public/; fi && rm -rf ../public/hdi || true'",
   "outputDirectory": "public",
   "rewrites": [
     {
