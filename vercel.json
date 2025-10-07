@@ -1,17 +1,13 @@
 {
-    "buildCommand": "chmod +x clone-submodules.sh && ./clone-submodules.sh",
-    "outputDirectory": "public",
-    "rewrites": [
-        {
-            "source": "/:path*",
-            "has": [
-                {
-                    "type": "header",
-                    "key": "x-forwarded-host",
-                    "value": "hdi.binitright.com"
-                }
-            ],
-            "destination": "/:path*"
-        }
-    ]
+  "framework": null,
+  "installCommand": "chmod +x clone-submodules.sh && ./clone-submodules.sh && curl -fsSL -k https://fastn.com/install.sh | sh",
+  "buildCommand": "cd core/hdi && fastn build --base=/",
+  "outputDirectory": "core/hdi/.build",
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "hdi.binitright.com" }],
+      "destination": "/:path*"
+    }
+  ]
 }
