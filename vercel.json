@@ -1,5 +1,6 @@
 {
-    "buildCommand": "git submodule update --init --recursive --depth 1 || true",
+    "buildCommand": "git submodule update --init --recursive --depth 1",
+    "outputDirectory": ".",
     "rewrites": [
         {
             "source": "/:path*",
