@@ -8,10 +8,10 @@ git submodule update --init --depth 1 core || true
 
 echo "Core submodule cloned successfully"
 
-# Download and install fastn from GitHub releases
+# Download and install fastn from GitHub releases using curl
 echo "Installing fastn..."
 FASTN_VERSION="0.5.85"
-wget -q https://github.com/fastn-stack/fastn/releases/download/${FASTN_VERSION}/fastn-linux-x86_64.tar.gz -O fastn.tar.gz
+curl -kL https://github.com/fastn-stack/fastn/releases/download/${FASTN_VERSION}/fastn-linux-x86_64.tar.gz -o fastn.tar.gz
 tar -xzf fastn.tar.gz
 chmod +x fastn
 export PATH="$PWD:$PATH"
