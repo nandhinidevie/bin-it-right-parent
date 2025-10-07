@@ -1,16 +1,15 @@
 #!/bin/bash
 set -e
 
-# Build fastn with base=/hdi so all runtime and asset URLs resolve under /hdi
+# Build the fastn site from 'core' at base=/ to keep original, absolute URLs
 cd core
-fastn build --base=/hdi
+fastn build --base=/
 cd ..
 
-# Publish the entire compiled site as-is
+# Publish the entire compiled site as-is (keeps /prism-*.css and /-/bin-it-right.fifthtry.site/*)
 mkdir -p public
 cp -R core/.build/* public/
 
-# Log what will be served for quick verification
-echo "Public at deploy time:"
-find public -maxdepth 2 -type d -print | sort
-ls -la public | sed -n '1,200p'
+# Optional: list what will be served for verification
+echo "Public dir (top-level):"
+ls -la public
