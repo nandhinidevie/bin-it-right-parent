@@ -1,12 +1,27 @@
 {
   "framework": null,
-  "installCommand": "chmod +x clone-submodules.sh && ./clone-submodules.sh && curl -fsSL -k https://fastn.com/install.sh | sh",
+  "installCommand": "chmod +x clone-submodules.sh && ./clone-submodules.sh && curl -fsSL https://fastn.com/install.sh | sh",
   "buildCommand": "chmod +x build.sh && ./build.sh",
   "outputDirectory": "public",
   "rewrites": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "hdi.binitright.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "(?<subdomain>[^.]+)\\.binitright\\.com"
+        }
+      ],
+      "destination": "/sites/:subdomain/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host", 
+          "value": "binitright.com"
+        }
+      ],
       "destination": "/:path*"
     }
   ]
