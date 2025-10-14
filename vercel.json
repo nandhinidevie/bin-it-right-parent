@@ -6,22 +6,12 @@
   "rewrites": [
     {
       "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "(?<subdomain>[^.]+)\\.binitright\\.com"
-        }
-      ],
-      "destination": "/sites/:subdomain/:path*"
+      "has": [{ "type": "host", "value": "hdi.binitright.com" }],
+      "destination": "/:path*"
     },
     {
       "source": "/:path*",
-      "has": [
-        {
-          "type": "host", 
-          "value": "binitright.com"
-        }
-      ],
+      "has": [{ "type": "host", "value": "test.binitright.com" }],
       "destination": "/:path*"
     }
   ]
