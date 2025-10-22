@@ -3,19 +3,23 @@ set -e
 
 # Check for required token for private admin submodule
 if [ -z "$ADMIN_GIT_PAT_TOKEN" ]; then
-  echo "Error: ADMIN_GIT_PAT_TOKEN not set; cannot access private admin repo."
+  echo "Error: ADMIN_GIT_PAT_TOKEN environment variable is not set."
+  echo "Please add it to Vercel Environment Variables."
   exit 1
 fi
 
-# Deinitialize submodules if partially initialized (cleans failed states)
-git submodule deinit -f core admin || true
+# First, sync all submodule configurations from .gitmodules
 git submodule sync
 
-# Set URL for private admin with token (use your GitHub username if required, e.g., nandhinidevie:${ADMIN_GIT_PAT_TOKEN})
-git submodule set-url admin "https://${ADMIN_GIT_PAT_TOKEN}@github.com/nandhinidevie/bin-it-right.git"
+# Initialize and register submodules (this reads .gitmodules and registers them in git config)
+git submodule init
 
-# Initialize and update all submodules
-git submodule update --init --recursive core admin
+# Update the private admin submodule URL with PAT authentication
+# This must happen AFTER init so git knows about the submodule
+git config submodule.admin.url "https://${ADMIN_GIT_PAT_TOKEN}@github.com/nandhinidevie/bin-it-right.git"
+
+# Now update/clone all submodules
+git submodule update --init --recursive --depth=1
 
 # Update public core to latest main
 cd core
@@ -30,5 +34,6 @@ git checkout -B main origin/main
 cd ..
 
 # Log commits for verification
-echo "core/main @ $(cd core && git rev-parse --short HEAD)"
-echo "admin/main @ $(cd admin && git rev-parse --short HEAD)"
+echo "Submodules cloned successfully:"
+echo "  core/main @ $(cd core && git rev-parse --short HEAD)"
+echo "  admin/main @ $(cd admin && git rev-parse --short HEAD)"
