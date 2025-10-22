@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "installCommand": "chmod +x clone-admin.sh && ./clone-admin.sh && cd admin && npm ci",
+  "buildCommand": "cd admin && npm run build",
+  "outputDirectory": "admin/.next"
+}
