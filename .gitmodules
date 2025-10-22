@@ -1,3 +1,8 @@
 [submodule "core"]
-	path = core
-	url = https://github.com/nandhinidevie/binitright.git
+    path = core
+    url = https://github.com/nandhinidevie/binitright.git
+    branch = main
+[submodule "admin"]
+	path = admin
+	url = https://github.com/nandhinidevie/bin-it-right.git
+    branch = main
