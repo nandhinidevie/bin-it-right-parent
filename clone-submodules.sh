@@ -1,127 +1,99 @@
 #!/bin/bash
 set -e
 
-echo "=== Starting submodule setup with detailed debugging ==="
+echo "=== Starting submodule setup ==="
 
 # Check for required token
 if [ -z "$ADMIN_GIT_PAT_TOKEN" ]; then
-  echo "ERROR: ADMIN_GIT_PAT_TOKEN environment variable is not set."
-  echo "Please add it in Vercel → Project Settings → Environment Variables"
+  echo "ERROR: ADMIN_GIT_PAT_TOKEN not set"
   exit 1
-else
-  echo "✓ ADMIN_GIT_PAT_TOKEN is set (length: ${#ADMIN_GIT_PAT_TOKEN} characters)"
-  # Show first 4 chars for verification (not the full token)
-  echo "  Token starts with: ${ADMIN_GIT_PAT_TOKEN:0:4}..."
 fi
 
-# Show current directory and .gitmodules content
+echo "✓ ADMIN_GIT_PAT_TOKEN is set (${#ADMIN_GIT_PAT_TOKEN} chars)"
+
+# Show .gitmodules
 echo ""
-echo "Current directory: $(pwd)"
 echo "Contents of .gitmodules:"
 cat .gitmodules
 
-# Sync and init
+# Method 1: Try standard git submodule approach
 echo ""
-echo "Step 1: Syncing submodule URLs..."
+echo "=== Attempting standard submodule clone ==="
 git submodule sync
-
-echo ""
-echo "Step 2: Initializing submodules..."
 git submodule init
 
-# Show what git knows about submodules
-echo ""
-echo "Git submodule status before update:"
-git submodule status || echo "  (no submodules initialized yet)"
-
-# Configure admin URL with token
-echo ""
-echo "Step 3: Configuring admin submodule with authentication..."
+# Configure admin URL with token (include username for better auth)
 git config submodule.admin.url "https://nandhinidevie:${ADMIN_GIT_PAT_TOKEN}@github.com/nandhinidevie/bin-it-right.git"
 
-# Verify the URL was set
-echo "Configured admin URL (with token hidden):"
-git config submodule.admin.url | sed "s/${ADMIN_GIT_PAT_TOKEN}/***TOKEN***/g"
+echo "Configured URLs:"
+echo "  core: $(git config submodule.core.url)"
+echo "  admin: $(git config submodule.admin.url | sed "s/${ADMIN_GIT_PAT_TOKEN}/***TOKEN***/g")"
 
-# Try updating with verbose output
-echo ""
-echo "Step 4: Updating submodules (this will show git errors if any)..."
-set +e  # Don't exit immediately on error, we want to see the output
-git submodule update --init --recursive --depth=1 2>&1
-UPDATE_EXIT_CODE=$?
-set -e
+# Update submodules
+git submodule update --init --recursive --depth=1 2>&1 || echo "Submodule update had issues"
 
+# Verify contents
 echo ""
-echo "Submodule update exit code: $UPDATE_EXIT_CODE"
+echo "=== Verifying submodule contents ==="
 
-# List what directories were created
-echo ""
-echo "Directories created:"
-ls -la | grep "^d"
-
-# Check if directories exist
-echo ""
-echo "Checking submodule directories..."
-if [ -d "core" ]; then
-  echo "✓ core directory exists"
-  ls -la core | head -5
+# Check core
+if [ -d "core" ] && [ -f "core/FASTN.ftd" ]; then
+  echo "✓ core submodule cloned successfully"
 else
-  echo "✗ core directory NOT found"
-fi
-
-if [ -d "admin" ]; then
-  echo "✓ admin directory exists"
-  ls -la admin | head -5
-else
-  echo "✗ admin directory NOT found"
-  echo ""
-  echo "=== DEBUGGING: Trying direct clone of admin ==="
-  echo "Attempting: git clone with PAT..."
-
-  # Try direct clone as fallback
-  git clone --depth=1 --branch=main \
-    "https://nandhinidevie:${ADMIN_GIT_PAT_TOKEN}@github.com/nandhinidevie/bin-it-right.git" \
-    admin 2>&1 || {
-      echo "DIRECT CLONE ALSO FAILED"
-      echo "Possible issues:"
-      echo "  1. PAT doesn't have 'Contents: Read' permission for bin-it-right repo"
-      echo "  2. PAT has expired"
-      echo "  3. GitHub username 'nandhinidevie' doesn't have access to bin-it-right"
-      echo "  4. Repository 'nandhinidevie/bin-it-right' doesn't exist or is misspelled"
-      exit 1
-    }
-
-  if [ -d "admin" ]; then
-    echo "✓ Direct clone succeeded!"
-  fi
-fi
-
-# Final verification
-if [ ! -d "core" ]; then
-  echo "FATAL: core submodule failed to clone"
+  echo "✗ core submodule failed"
   exit 1
 fi
 
-if [ ! -d "admin" ]; then
-  echo "FATAL: admin submodule failed to clone even with direct method"
+# Check admin - verify it has actual files, not just empty directory
+if [ -d "admin" ] && [ -f "admin/package.json" ]; then
+  echo "✓ admin submodule cloned successfully"
+  echo "  Found: $(ls -1 admin | head -5 | tr '\n' ' ')"
+elif [ -d "admin" ]; then
+  echo "✗ admin directory exists but is EMPTY (auth failed)"
+  echo "  Contents: $(ls -la admin | wc -l) items"
+
+  # Method 2: Direct clone as fallback
+  echo ""
+  echo "=== Fallback: Direct clone of admin repo ==="
+  rm -rf admin
+
+  git clone --depth=1 --branch=main \
+    "https://nandhinidevie:${ADMIN_GIT_PAT_TOKEN}@github.com/nandhinidevie/bin-it-right.git" \
+    admin 2>&1 | sed "s/${ADMIN_GIT_PAT_TOKEN}/***TOKEN***/g" || {
+      echo "FATAL: Direct clone also failed"
+      echo "Possible issues:"
+      echo "  1. Check PAT has 'Contents: Read' for bin-it-right repo"
+      echo "  2. Verify PAT hasn't expired"
+      echo "  3. Confirm account 'nandhinidevie' has access"
+      echo "  4. Test locally: git clone https://nandhinidevie:PAT@github.com/nandhinidevie/bin-it-right.git"
+      exit 1
+    }
+
+  if [ -f "admin/package.json" ]; then
+    echo "✓ Direct clone succeeded!"
+  else
+    echo "FATAL: admin still empty after direct clone"
+    exit 1
+  fi
+else
+  echo "✗ admin directory doesn't exist at all"
   exit 1
 fi
 
 # Update to latest commits
 echo ""
-echo "Step 5: Updating to latest commits..."
+echo "=== Updating to latest commits ==="
 cd core
 git fetch --depth=1 origin main
 git checkout -B main origin/main
 cd ..
 
 cd admin
-git fetch --depth=1 origin main 2>/dev/null || echo "Admin already at latest from clone"
-git checkout -B main origin/main 2>/dev/null || echo "Admin already on main"
+git fetch --depth=1 origin main 2>/dev/null || true
+git checkout -B main origin/main 2>/dev/null || true
 cd ..
 
-# Success!
 echo ""
 echo "=== Submodules ready ==="
-echo "  core/main @ $(cd core && git rev-parse --short HEAD)"
-echo "  admin/main @ $(cd admin && git rev-parse --short HEAD)"
+echo "  core @ $(cd core && git rev-parse --short HEAD)"
+echo "  admin @ $(cd admin && git rev-parse --short HEAD)"
