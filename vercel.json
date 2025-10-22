@@ -13,11 +13,6 @@
       "source": "/:path*",
       "has": [{ "type": "host", "value": "amazon.binitright.com" }],
       "destination": "/:path*"
-    },
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "test.binitright.com" }],
-      "destination": "/:path*"
     }
   ]
 }
