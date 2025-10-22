@@ -1,0 +1,3 @@
+# Ignore local SSH keys
+yes
+yes.pub
