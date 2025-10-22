@@ -1,50 +1,43 @@
 #!/bin/bash
-
 set -e
 
-# Build the Fastn site from 'core' submodule
+echo "=== Building Fastn core ==="
 cd core
 fastn build --base=/
 cd ..
 
-# Prepare public directory for Fastn output
 rm -rf public
 mkdir -p public
 cp -R core/.build/* public/
 
-# --- REMOVED PROMOTION LOGIC ---
-# DO NOT copy any index.html to the root of public/
-# This was the cause of the issue
+# Promote HDI
+if [ -f core/.build/hdi/index.html ]; then
+  cp -f core/.build/hdi/index.html public/index.html
+fi
 
-# Build Next.js admin app from private submodule
+if [ -f core/.build/hdi/bin-finder/index.html ]; then
+  mkdir -p public/bin-finder
+  cp -f core/.build/hdi/bin-finder/index.html public/bin-finder/index.html
+fi
+
+# Build Next.js admin (static export)
 if [ -d "admin" ]; then
-  echo "Building Next.js admin app..."
+  echo "=== Building Next.js admin ==="
   cd admin
 
-  if [ -f "package-lock.json" ]; then
-    npm ci
-  else
-    npm install
-  fi
-
+  # Use npm install instead of ci (more forgiving)
+  npm install --legacy-peer-deps
   npm run build
 
   cd ..
 
-  # Copy Next.js build output to public/admin
-  mkdir -p public/admin
-
+  # Copy static export
   if [ -d "admin/out" ]; then
+    mkdir -p public/admin
     cp -R admin/out/* public/admin/
-    echo "Admin static build copied to public/admin/"
-  elif [ -d "admin/.next" ]; then
-    cp -R admin/.next/* public/admin/
-    cp admin/package.json public/admin/
-    echo "Admin SSR build copied to public/admin/"
+    echo "✓ Admin built and copied to public/admin"
   fi
-else
-  echo "Warning: admin submodule not found; skipping Next.js build."
 fi
 
-echo "Build complete. Public directory contents:"
+echo "=== Build complete ==="
 ls -la public

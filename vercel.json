@@ -7,17 +7,17 @@
     {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "hdi.binitright.com" }],
-      "destination": "/hdi/:path*"
+      "destination": "/:path*"
     },
     {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "amazon.binitright.com" }],
-      "destination": "/amazon/:path*"
+      "destination": "/:path*"
     },
     {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "test.binitright.com" }],
-      "destination": "/admin/:path*"
+      "destination": "/:path*"
     }
   ]
 }
