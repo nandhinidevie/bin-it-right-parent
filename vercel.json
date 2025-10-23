@@ -10,6 +10,10 @@
       "destination": "https://bin-it-right.vercel.app/_next/:path*"
     },
     {
+      "source": "/sounds/:path*",
+      "destination": "https://bin-it-right.vercel.app/sounds/:path*"
+    },
+    {
       "source": "/admin",
       "destination": "https://bin-it-right.vercel.app/admin"
     },
@@ -37,16 +41,6 @@
       "source": "/game/:path*",
       "has": [{ "type": "host", "value": "hdi.binitright.com" }],
       "destination": "https://bin-it-right.vercel.app/game/:path*"
-    },
-    {
-      "source": "/sounds/:path*",
-      "has": [{ "type": "host", "value": "hdi.binitright.com" }],
-      "destination": "/hdi/sounds/:path*"
-    },
-    {
-      "source": "/sounds/:path*",
-      "has": [{ "type": "host", "value": "amazon.binitright.com" }],
-      "destination": "/amazon/sounds/:path*"
     },
     {
       "source": "/:path*",
