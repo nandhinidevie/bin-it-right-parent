@@ -39,6 +39,16 @@
       "destination": "https://bin-it-right.vercel.app/game/:path*"
     },
     {
+      "source": "/sounds/:path*",
+      "has": [{ "type": "host", "value": "hdi.binitright.com" }],
+      "destination": "/hdi/sounds/:path*"
+    },
+    {
+      "source": "/sounds/:path*",
+      "has": [{ "type": "host", "value": "amazon.binitright.com" }],
+      "destination": "/amazon/sounds/:path*"
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "hdi.binitright.com" }],
       "destination": "/hdi/:path*"
