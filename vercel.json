@@ -6,12 +6,20 @@
   "outputDirectory": "public",
   "rewrites": [
     {
+      "source": "/_next/:path*",
+      "destination": "https://bin-it-right.vercel.app/_next/:path*"
+    },
+    {
       "source": "/game",
       "destination": "https://bin-it-right.vercel.app/game"
     },
     {
       "source": "/game/:path*",
       "destination": "https://bin-it-right.vercel.app/game/:path*"
+    },
+    {
+      "source": "/api/game/:path*",
+      "destination": "https://bin-it-right.vercel.app/api/game/:path*"
     },
     {
       "source": "/:path*",
