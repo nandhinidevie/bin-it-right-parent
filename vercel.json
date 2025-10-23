@@ -34,9 +34,19 @@
       "destination": "https://bin-it-right.vercel.app/api/game/:path*"
     },
     {
+      "source": "/",
+      "has": [{ "type": "host", "value": "hdi.binitright.com" }],
+      "destination": "/hdi/index.html"
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "hdi.binitright.com" }],
       "destination": "/hdi/:path*"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "amazon.binitright.com" }],
+      "destination": "/amazon/index.html"
     },
     {
       "source": "/:path*",
