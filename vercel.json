@@ -10,18 +10,6 @@
       "destination": "https://bin-it-right.vercel.app/_next/:path*"
     },
     {
-      "source": "/admin",
-      "destination": "https://bin-it-right.vercel.app/admin"
-    },
-    {
-      "source": "/admin/:path*",
-      "destination": "https://bin-it-right.vercel.app/admin/:path*"
-    },
-    {
-      "source": "/api/admin/:path*",
-      "destination": "https://bin-it-right.vercel.app/api/admin/:path*"
-    },
-    {
       "source": "/game",
       "destination": "https://bin-it-right.vercel.app/game"
     },
