@@ -22,7 +22,7 @@ if [ -f core/.build/hdi/bin-finder/index.html ]; then
 fi
 
 if [ -f core/.build/amazon/index.html ]; then
-  cp -f core/.build/amazon/index.html public/index.html
+  cp -f core/.build/amazon/index.html public/amazon/index.html
 fi
 
 echo "=== Build complete ==="
