@@ -6,6 +6,16 @@
   "outputDirectory": "public",
   "rewrites": [
     {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "hdi.binitright.com" }],
+      "destination": "/hdi/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "amazon.binitright.com" }],
+      "destination": "/amazon/:path*"
+    },
+    {
       "source": "/_next/:path*",
       "destination": "https://bin-it-right.vercel.app/_next/:path*"
     },
@@ -32,16 +42,6 @@
     {
       "source": "/api/game/:path*",
       "destination": "https://bin-it-right.vercel.app/api/game/:path*"
-    },
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "hdi.binitright.com" }],
-      "destination": "/hdi/:path*"
-    },
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "amazon.binitright.com" }],
-      "destination": "/amazon/:path*"
     }
   ]
 }
