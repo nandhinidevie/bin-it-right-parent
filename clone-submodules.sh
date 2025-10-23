@@ -3,7 +3,7 @@ set -e
 
 echo "=== Cloning CORE submodule only (HDI/Amazon) ==="
 
-# Sync and init core submodule only
+# Sync and init only core
 git submodule sync
 git submodule init core
 
@@ -11,9 +11,9 @@ git submodule init core
 echo "Cloning core submodule..."
 git submodule update --init --depth=1 core
 
-# Verify core
+# Verify
 if [ ! -f "core/FASTN.ftd" ]; then
-  echo "ERROR: core/FASTN.ftd not found after clone"
+  echo "ERROR: core/FASTN.ftd not found"
   exit 1
 fi
 
@@ -23,6 +23,4 @@ git fetch --depth=1 origin main
 git checkout -B main origin/main
 cd ..
 
-echo ""
-echo "=== Core submodule ready ==="
-echo "  core @ $(cd core && git rev-parse --short HEAD)"
+echo "✓ Core ready @ $(cd core && git rev-parse --short HEAD)"
